@@ -1,261 +1,622 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Moritz Wüsten — Prozessingenieur</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moritz Wüsten – Process Engineer</title>
+<meta name="description" content="Prozessingenieur mit Fokus auf Industrial Engineering, Prozessleitsysteme und Automatisierung in der Prozessindustrie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.27.0/plotly.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg:        #0E0F0D;
-      --surface:   #161714;
-      --border:    rgba(200,146,42,0.18);
-      --gold:      #C8922A;
-      --gold-soft: #E3A84A;
-      --text:      #F0EDE6;
-      --muted:     #7A786F;
-      --accent:    #4A7C59;
-    }
+  :root {
+    --bg:            #111110;
+    --bg-2:          #181816;
+    --surface:       #1E1E1C;
+    --surface-2:     #252522;
+    --ink:           #F0EDE6;
+    --ink-mid:       #A09D96;
+    --ink-light:     #635F58;
+    --accent:        #C8922A;
+    --accent-warm:   #E3A84A;
+    --accent-tag-bg: rgba(200,146,42,0.13);
+    --accent-tag:    #D9A84E;
+    --border:        rgba(240,237,230,0.08);
+    --border-mid:    rgba(240,237,230,0.14);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+    --radius: 12px;
+    --max: 860px;
+  }
 
-    html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans); background: var(--bg); color: var(--ink);
+    font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-weight: 300;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(17,17,16,0.88); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border); padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 60px;
+  }
+  .nav-logo { font-family: var(--serif); font-size: 18px; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 14px; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent-warm); }
 
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.035;
-    }
+  section { padding: 6rem 2rem; }
+  .container { max-width: var(--max); margin: 0 auto; }
 
-    /* ── HERO ── */
-    header {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 8vw, 7rem);
-      border-bottom: 1px solid var(--border);
-    }
+  /* HERO */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding-top: 80px; background: var(--bg); position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: ''; position: absolute; top: -15%; right: -8%;
+    width: 560px; height: 560px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,146,42,0.08) 0%, transparent 68%);
+    pointer-events: none;
+  }
+  #hero::after {
+    content: ''; position: absolute; bottom: 5%; left: -5%;
+    width: 380px; height: 380px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,146,42,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: var(--max); margin: 0 auto; width: 100%; position: relative; }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.5rem;
+  }
+  .hero-label::before { content: ''; display: block; width: 28px; height: 1.5px; background: var(--accent); }
+  h1 {
+    font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 4.2rem);
+    line-height: 1.1; color: var(--ink); margin-bottom: 1.5rem; letter-spacing: -0.01em;
+  }
+  h1 em { font-style: italic; color: var(--accent-warm); }
+  .hero-sub { font-size: 1.05rem; color: var(--ink-mid); max-width: 520px; line-height: 1.8; margin-bottom: 2.5rem; font-weight: 300; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 6px;
+    font-family: var(--sans); font-size: 14px; font-weight: 500;
+    text-decoration: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-primary { background: var(--accent); color: #111110; border: 1.5px solid var(--accent); }
+  .btn-primary:hover { background: var(--accent-warm); border-color: var(--accent-warm); }
+  .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--border-mid); }
+  .btn-outline:hover { border-color: var(--ink-mid); }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+  .stat-num { font-family: var(--serif); font-size: 2.1rem; color: var(--ink); display: block; line-height: 1.1; }
+  .stat-label { font-size: 12px; color: var(--ink-light); letter-spacing: 0.03em; margin-top: 4px; display: block; }
 
-    /* top bar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 4rem;
-    }
-    .topbar-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.02em;
-      color: var(--gold-soft);
-    }
-    .topbar-tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 0.35em 0.9em;
-      border-radius: 2px;
-    }
+  /* HEADINGS */
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 1rem;
+  }
+  h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.5rem); line-height: 1.2; color: var(--ink); margin-bottom: 0.75rem; }
+  .section-intro { font-size: 1rem; color: var(--ink-mid); max-width: 540px; font-weight: 300; margin-bottom: 3rem; line-height: 1.75; }
 
-    /* main headline area */
-    .hero-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 2.5rem;
-    }
+  /* ABOUT */
+  #about { background: var(--bg-2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { color: var(--ink-mid); font-weight: 300; margin-bottom: 1.25rem; line-height: 1.8; }
+  .about-text p:last-of-type { margin-bottom: 0; }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.75rem; }
+  .tag {
+    font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 100px;
+    background: var(--accent-tag-bg); color: var(--accent-tag);
+    border: 1px solid rgba(200,146,42,0.2);
+  }
+  .about-card { background: var(--surface); border-radius: var(--radius); padding: 2rem; border: 1px solid var(--border); }
+  .about-card h3 { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 1.5rem; color: var(--ink); }
+  .edu-item { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+  .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .edu-item:first-of-type { padding-top: 0; }
+  .edu-deg { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .edu-inst { font-size: 13px; color: var(--accent-tag); margin: 3px 0; }
+  .edu-year { font-size: 12px; color: var(--ink-light); }
 
-    .hero-eyebrow {
-      font-size: 0.68rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.2s forwards;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 2.5rem; height: 1px;
-      background: var(--gold);
-    }
+  /* EXPERTISE */
+  #expertise { background: var(--bg); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; }
+  .skill-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.75rem; transition: border-color 0.25s, background 0.25s;
+  }
+  .skill-card:hover { border-color: rgba(200,146,42,0.35); background: var(--surface-2); }
+  .skill-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--accent-tag-bg); border: 1px solid rgba(200,146,42,0.2);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem;
+  }
+  .skill-icon svg { width: 18px; height: 18px; stroke: var(--accent-tag); }
+  .skill-card h3 { font-size: 14.5px; font-weight: 500; margin-bottom: 0.5rem; color: var(--ink); }
+  .skill-card p { font-size: 13.5px; color: var(--ink-mid); font-weight: 300; line-height: 1.65; }
+  .cert-badge {
+    display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500;
+    padding: 4px 10px; border-radius: 100px; background: rgba(59,109,17,0.18); color: #7DC44E;
+    margin-top: 1rem; border: 1px solid rgba(59,109,17,0.25);
+  }
+  .kaggle-link {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+    color: var(--ink-light); text-decoration: none; margin-top: 0.75rem; transition: color 0.2s;
+  }
+  .kaggle-link:hover { color: var(--accent-warm); }
+  .kaggle-link svg { width: 13px; height: 13px; stroke: currentColor; }
 
-    .hero-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      line-height: 1.0;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.4s forwards;
-    }
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold-soft);
-    }
+  /* PROJECTS */
+  #projects { background: var(--bg-2); }
+  .projects-grid { display: grid; gap: 1.25rem; }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 2rem 2.25rem; display: grid; grid-template-columns: 1fr auto;
+    gap: 1rem; align-items: center; transition: border-color 0.25s, background 0.25s;
+  }
+  .project-card:hover { border-color: rgba(200,146,42,0.3); background: var(--surface-2); }
+  .project-type { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.5rem; }
+  .project-card h3 { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); margin-bottom: 0.5rem; }
+  .project-card p { font-size: 13.5px; color: var(--ink-mid); font-weight: 300; line-height: 1.65; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+  .project-tag { font-size: 11.5px; padding: 3px 10px; border-radius: 100px; background: transparent; border: 1px solid var(--border-mid); color: var(--ink-light); }
+  .project-arrow { font-size: 20px; color: var(--ink-light); align-self: center; opacity: 0.4; transition: opacity 0.2s, color 0.2s; }
+  .project-card:hover .project-arrow { opacity: 1; color: var(--accent-warm); }
 
-    .hero-sub {
-      max-width: 54ch;
-      font-size: clamp(0.85rem, 1.5vw, 1rem);
-      line-height: 1.85;
-      color: var(--muted);
-      font-weight: 300;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.6s forwards;
-    }
+  /* CHART SECTION */
+  #dataviz { background: var(--bg); }
+  .chart-wrapper {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-top: 0;
+  }
+  .chart-header {
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+  .chart-title { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .chart-subtitle { font-size: 13px; color: var(--ink-light); font-weight: 300; }
+  .phase-legend { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+  .phase-badge {
+    display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-mid);
+  }
+  .phase-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .chart-area { padding: 0.5rem 0.5rem 0; }
+  #mixerChart { width: 100%; height: 380px; }
+  .chart-footer {
+    padding: 1rem 2rem; border-top: 1px solid var(--border);
+    display: flex; gap: 2rem; flex-wrap: wrap;
+  }
+  .kpi {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .kpi-val { font-family: var(--serif); font-size: 1.4rem; color: var(--ink); }
+  .kpi-label { font-size: 11px; color: var(--ink-light); letter-spacing: 0.04em; }
+  .chart-note {
+    margin-top: 1.25rem; padding: 0.875rem 1.25rem;
+    background: var(--accent-tag-bg); border: 1px solid rgba(200,146,42,0.18);
+    border-radius: 8px; font-size: 13px; color: var(--ink-mid); font-weight: 300;
+    display: flex; align-items: flex-start; gap: 0.6rem;
+  }
+  .chart-note strong { color: var(--accent-tag); font-weight: 500; }
 
-    .hero-cta {
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.8s forwards;
-    }
-    .btn {
-      display: inline-block;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 0.85em 2em;
-      border-radius: 2px;
-      transition: all 0.25s ease;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--gold);
-      color: #0E0F0D;
-      font-weight: 500;
-      border: 1px solid var(--gold);
-    }
-    .btn-primary:hover { background: var(--gold-soft); border-color: var(--gold-soft); }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+  /* CONTACT */
+  #contact { background: var(--bg-2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.875rem; margin-top: 0.5rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem; text-decoration: none; padding: 1rem 1.25rem;
+    border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-link:hover { border-color: rgba(200,146,42,0.35); background: var(--surface-2); }
+  .contact-link-icon {
+    width: 38px; height: 38px; border-radius: 8px; background: var(--accent-tag-bg);
+    border: 1px solid rgba(200,146,42,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .contact-link-icon svg { width: 17px; height: 17px; stroke: var(--accent-tag); }
+  .contact-link-text { font-size: 14px; color: var(--ink); }
+  .contact-link-label { font-size: 11px; color: var(--ink-light); display: block; margin-bottom: 2px; }
+  .contact-note { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+  .contact-note p { color: var(--ink-mid); font-size: 14px; font-weight: 300; line-height: 1.8; }
+  .contact-note strong { color: var(--ink); font-weight: 500; }
+  .contact-note p + p { margin-top: 1rem; }
 
-    /* bottom strip */
-    .hero-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
-      margin-top: 3rem;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 1s forwards;
-    }
-    .hero-location {
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .hero-location span { color: var(--gold); margin-right: 0.4em; }
+  footer {
+    background: var(--bg-2); border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-name { font-family: var(--serif); font-size: 15px; color: var(--ink-light); }
+  .footer-copy { font-size: 12px; color: var(--ink-light); opacity: 0.45; }
 
-    .scroll-hint {
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .scroll-hint::after {
-      content: '';
-      display: block;
-      width: 1px; height: 2.5rem;
-      background: linear-gradient(to bottom, var(--muted), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.75s cubic-bezier(0.22,1,0.36,1) forwards; }
+  .delay-1 { animation-delay: 0.10s; opacity: 0; }
+  .delay-2 { animation-delay: 0.25s; opacity: 0; }
+  .delay-3 { animation-delay: 0.40s; opacity: 0; }
+  .delay-4 { animation-delay: 0.58s; opacity: 0; }
 
-    /* decorative vertical line */
-    header::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      right: clamp(1.5rem, 8vw, 7rem);
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, var(--border) 30%, var(--border) 70%, transparent);
-      pointer-events: none;
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50%       { opacity: 1; }
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      header::after { display: none; }
-      .hero-footer { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
-      .scroll-hint { display: none; }
-    }
-  </style>
+  @media (max-width: 680px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.25rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { gap: 2rem; flex-wrap: wrap; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-arrow { display: none; }
+    #mixerChart { height: 280px; }
+    .chart-header { flex-direction: column; }
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="topbar">
-    <span class="topbar-logo">Moritz Wüsten</span>
-    <span class="topbar-tag"></span>
-  </div>
+<nav>
+  <a class="nav-logo" href="#hero">Moritz Wüsten</a>
+  <ul class="nav-links">
+    <li><a href="#about">Über mich</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#projects">Projekte</a></li>
+    <li><a href="#dataviz">Datenbeispiel</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+</nav>
 
-  <div class="hero-body">
-    <div class="hero-eyebrow">Prozessingenieur · Industrial Engineering</div>
-
-    <h1 class="hero-title">
-      Automatisierung &amp; <br>
-      <em>Prozessoptimierung</em> <br>
-      in der Industrie.
-    </h1>
-
-    <p class="hero-sub">
-      Prozessingenieur im Industrial Engineering mit Fokus auf die Auslegung
-      und Optimierung von Automatikprozessen — fundiert durch das Studium der
-      Technologie &amp; Biotechnologie der Lebensmittel am Wissenschaftszentrum Weihenstephan der TU München.
-    </p>
-
-    <div class="hero-cta">
-      <a href="#kontakt" class="btn btn-primary">Kontakt aufnehmen</a>
-      <a href="#projekte" class="btn btn-ghost">Projekte ansehen</a>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-label fade-up">Process Engineer</div>
+    <h1 class="fade-up delay-1">Automatisierung &amp;<br><em>Prozessoptimierung</em><br>in der Industrie.</h1>
+    <p class="hero-sub fade-up delay-2">Prozessingenieur im Industrial Engineering mit Fokus auf die Auslegung und Optimierung von Automatikprozessen — fundiert durch das Studium der Technologie &amp; Biotechnologie der Lebensmittel am Wissenschaftszentrum Weihenstephan der TU München.</p>
+    <div class="hero-ctas fade-up delay-3">
+      <a class="btn btn-primary" href="#expertise">Expertise ansehen</a>
+      <a class="btn btn-outline" href="#contact">Kontakt aufnehmen</a>
+    </div>
+    <div class="hero-stats fade-up delay-4">
+      <div><span class="stat-num">M.Sc.</span><span class="stat-label">TU München</span></div>
+      <div><span class="stat-num">Plant&nbsp;iT</span><span class="stat-label">ProLeiT Zertifiziert</span></div>
+      <div><span class="stat-num">AI &amp; DS</span><span class="stat-label">Zertifiziert</span></div>
     </div>
   </div>
+</section>
 
-  <div class="hero-footer">
-    <div class="hero-location"><span>◎</span> Münster, Deutschland</div>
-    <div class="scroll-hint">Scroll</div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <span class="section-label">Über mich</span>
+        <h2>Technik, die funktioniert —<br>und sich verbessert.</h2>
+        <p>Als Prozessingenieur im Industrial Engineering beschäftige ich mich täglich mit der Frage, wie sich Produktionsprozesse präziser, effizienter und zuverlässiger gestalten lassen. Mein Schwerpunkt liegt auf der Auslegung und Optimierung von Automatikprozessen.</p>
+        <p>Mein naturwissenschaftlicher Hintergrund aus dem Studium der Lebensmitteltechnologie und Biotechnologie an der TU München gibt mir ein tiefes Verständnis für komplexe Prozesszusammenhänge — von der Chemie des Materials bis zur Steuerungsebene.</p>
+        <p>Ich verknüpfe klassisches Process Engineering mit modernen Methoden aus Data Science und KI, um datengetriebene Optimierungen in der Produktion voranzutreiben.</p>
+        <div class="about-tags">
+          <span class="tag">Prozessleitsysteme</span>
+          <span class="tag">Automatisierung</span>
+          <span class="tag">Data Science</span>
+          <span class="tag">Industrial Engineering</span>
+          <span class="tag">Plant iT / ProLeiT</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <h3>Ausbildung &amp; Zertifizierungen</h3>
+        <div class="edu-item">
+          <div class="edu-deg">M.Sc. Technologie &amp; Biotechnologie der Lebensmittel</div>
+          <div class="edu-inst">Technische Universität München</div>
+          <div class="edu-year">Master of Science</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-deg">Zertifizierung Plant iT</div>
+          <div class="edu-inst">ProLeiT GmbH</div>
+          <div class="edu-year">Prozessleitsystem-Projektierung</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-deg">Data Science &amp; AI in Production Engineering</div>
+          <div class="edu-inst">Zertifizierung</div>
+          <div class="edu-year">Maschinelles Lernen &amp; Datenanalyse in der Produktion</div>
+        </div>
+      </div>
+    </div>
   </div>
-</header>
+</section>
 
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="container">
+    <span class="section-label">Expertise</span>
+    <h2>Womit ich arbeite.</h2>
+    <p class="section-intro">Spezialisierungen, die ich in der täglichen Praxis einsetze und kontinuierlich vertiefe.</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3>Prozessleitsystem Plant iT</h3>
+        <p>Projektierung, Konfiguration und Inbetriebnahme des ProLeiT-Systems Plant iT für automatisierte Produktionsprozesse in der Prozessindustrie.</p>
+        <span class="cert-badge">✓ Zertifiziert · ProLeiT</span>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Prozessautomatisierung</h3>
+        <p>Auslegung und Optimierung vollautomatischer Produktionsprozesse — von der Konzeptphase über die Implementierung bis zur kontinuierlichen Verbesserung.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        </div>
+        <h3>Industrial Engineering</h3>
+        <p>Systematische Analyse und Verbesserung von Produktionssystemen: Kapazitätsplanung, Prozessdesign und Effizienzsteigerung in industriellen Fertigungsumgebungen.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h3>Data Science &amp; KI in der Produktion</h3>
+        <p>Anwendung von Machine-Learning-Methoden zur Prozessoptimierung: Anomalieerkennung, Predictive Maintenance und datengetriebene Entscheidungsunterstützung.</p>
+        <span class="cert-badge">✓ Zertifiziert</span><br>
+        <a class="kaggle-link" href="https://www.kaggle.com/moritzwuesten" target="_blank" rel="noopener">
+          <svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Kaggle-Profil ansehen
+        </a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
+        </div>
+        <h3>Lebensmitteltechnologie &amp; Biotechnologie</h3>
+        <p>Tiefgreifendes Prozessverständnis auf molekularer Ebene — Wissen über Materialverhalten, chemische Reaktionen und biologische Prozesse als Basis für optimale Prozessauslegung.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Prozessoptimierung &amp; Analyse</h3>
+        <p>Strukturierte Analyse von Produktionskennzahlen, Identifikation von Engpässen und Ableitung von Optimierungsmaßnahmen für automatisierte Anlagen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <span class="section-label">Projekte</span>
+    <h2>Ausgewählte Arbeiten.</h2>
+    <p class="section-intro">Beispiele aus meiner Praxis — anonymisiert und ohne vertrauliche Details.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div>
+          <div class="project-type">Automatisierung · Prozessleitsystem</div>
+          <h3>Plant iT Projektierung für Batch-Prozesse</h3>
+          <p>Auslegung und Konfiguration eines vollautomatischen Batch-Prozesses im Plant iT-System. Inklusive Rezepturverwaltung, Anlagensteuerung und Schnittstellen zu übergeordneten ERP-Systemen.</p>
+          <div class="project-tags">
+            <span class="project-tag">Plant iT</span><span class="project-tag">ProLeiT</span>
+            <span class="project-tag">Batch-Automatisierung</span><span class="project-tag">ISA S88</span>
+          </div>
+        </div>
+        <div class="project-arrow">→</div>
+      </div>
+      <div class="project-card">
+        <div>
+          <div class="project-type">Data Science · Predictive Analytics</div>
+          <h3>Datengetriebene Prozessoptimierung</h3>
+          <p>Analyse von Produktionsdaten zur Identifikation von Qualitätsschwankungen und Prozessabweichungen. Einsatz von ML-Modellen zur frühzeitigen Erkennung kritischer Prozesszustände.</p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span><span class="project-tag">Anomalieerkennung</span>
+            <span class="project-tag">Zeitreihenanalyse</span><span class="project-tag">Prozessdaten</span>
+          </div>
+        </div>
+        <div class="project-arrow">→</div>
+      </div>
+      <div class="project-card">
+        <div>
+          <div class="project-type">Industrial Engineering · Effizienz</div>
+          <h3>Optimierung automatisierter Abfüllprozesse</h3>
+          <p>Systematische Analyse und Neuauslegung eines automatisierten Abfüllprozesses — Steigerung des Durchsatzes durch Engpassanalyse, Taktoptimierung und Anpassung der Steuerungslogik.</p>
+          <div class="project-tags">
+            <span class="project-tag">OEE-Analyse</span><span class="project-tag">Engpassmanagement</span>
+            <span class="project-tag">SPS-Steuerung</span><span class="project-tag">Prozessdesign</span>
+          </div>
+        </div>
+        <div class="project-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA VISUALIZATION -->
+<section id="dataviz">
+  <div class="container">
+    <span class="section-label">Datenbeispiel</span>
+    <h2>Prozessdaten in der Praxis.</h2>
+    <p class="section-intro">Ein Beispiel, wie Sensordaten aus einem Mischprozess visualisiert und analysiert werden — Grundlage für datengetriebene Prozessoptimierung.</p>
+
+    <div class="chart-wrapper">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Mischprozess — Sensordaten (Beispiel)</div>
+          <div class="chart-subtitle">Temperatur, Rührerdrehzahl und Viskosität über 60 Minuten · Abtastrate 0,5 min</div>
+        </div>
+        <div class="phase-legend">
+          <span class="phase-badge"><span class="phase-dot" style="background:#E3A84A;"></span>Aufheizphase</span>
+          <span class="phase-badge"><span class="phase-dot" style="background:#7DC44E;"></span>Mischphase</span>
+          <span class="phase-badge"><span class="phase-dot" style="background:#7B9EC8;"></span>Abkühlphase</span>
+        </div>
+      </div>
+      <div class="chart-area">
+        <div id="mixerChart"></div>
+      </div>
+      <div class="chart-footer">
+        <div class="kpi"><span class="kpi-val">77 °C</span><span class="kpi-label">Prozesstemperatur (Plateau)</span></div>
+        <div class="kpi"><span class="kpi-val">120 rpm</span><span class="kpi-label">Nenndrehzahl Rührer</span></div>
+        <div class="kpi"><span class="kpi-val">−26 %</span><span class="kpi-label">Viskositätsabnahme (gesamt)</span></div>
+        <div class="kpi"><span class="kpi-val">60 min</span><span class="kpi-label">Gesamtprozessdauer</span></div>
+      </div>
+    </div>
+
+    <div class="chart-note">
+      <strong>Hinweis:</strong> Alle dargestellten Daten sind synthetisch generiert und dienen ausschließlich der Illustration typischer Prozesskurven. Reale Prozessparameter unterliegen der Vertraulichkeit.
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <span class="section-label">Kontakt</span>
+        <h2>Lass uns vernetzen.</h2>
+        <p class="section-intro">Ich freue mich über den Austausch mit Ingenieuren, Fachleuten aus der Prozess- und Automatisierungsindustrie sowie Unternehmen, die ähnliche Herausforderungen kennen.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="https://www.linkedin.com/in/moritz-wuesten" target="_blank" rel="noopener">
+            <div class="contact-link-icon">
+              <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div><span class="contact-link-label">LinkedIn</span><span class="contact-link-text">Moritz Wüsten</span></div>
+          </a>
+          <a class="contact-link" href="mailto:kontakt@moritz-wuesten.de">
+            <div class="contact-link-icon">
+              <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div><span class="contact-link-label">E-Mail</span><span class="contact-link-text">kontakt@moritz-wuesten.de</span></div>
+          </a>
+          <a class="contact-link" href="https://www.kaggle.com/moritzwuesten" target="_blank" rel="noopener">
+            <div class="contact-link-icon">
+              <svg fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </div>
+            <div><span class="contact-link-label">Kaggle</span><span class="contact-link-text">moritzwuesten</span></div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-note">
+        <p><strong>Offen für Gespräche über:</strong> Automatisierungsprojekte, Prozessleitsysteme, datengetriebene Optimierung in der Produktion und alles rund um Industrial Engineering in der Prozessindustrie.</p>
+        <p>Ich beantworte Anfragen in der Regel innerhalb weniger Tage — schreib mir gerne auf LinkedIn oder per E-Mail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">Moritz Wüsten</span>
+  <span class="footer-copy">moritz-wuesten.de · <span id="yr"></span></span>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// --- Sensor data (generated with Python/NumPy logic) ---
+const data = {"times": [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0, 30.5, 31.0, 31.5, 32.0, 32.5, 33.0, 33.5, 34.0, 34.5, 35.0, 35.5, 36.0, 36.5, 37.0, 37.5, 38.0, 38.5, 39.0, 39.5, 40.0, 40.5, 41.0, 41.5, 42.0, 42.5, 43.0, 43.5, 44.0, 44.5, 45.0, 45.5, 46.0, 46.5, 47.0, 47.5, 48.0, 48.5, 49.0, 49.5, 50.0, 50.5, 51.0, 51.5, 52.0, 52.5, 53.0, 53.5, 54.0, 54.5, 55.0, 55.5, 56.0, 56.5, 57.0, 57.5, 58.0, 58.5, 59.0, 59.5], "temp": [21.94, 25.03, 27.63, 30.3, 33.26, 35.34, 38.52, 40.67, 44.35, 46.85, 49.73, 52.01, 55.27, 57.35, 60.55, 63.39, 65.75, 68.95, 71.17, 74.82, 77.71, 77.05, 77.63, 78.27, 78.49, 78.0, 78.58, 78.64, 78.62, 78.97, 79.54, 78.47, 79.52, 78.6, 78.36, 79.13, 76.99, 77.63, 78.48, 77.99, 77.05, 76.08, 77.52, 75.44, 76.7, 75.88, 75.41, 75.32, 74.79, 74.83, 75.72, 75.25, 74.75, 75.57, 75.53, 75.44, 75.88, 75.84, 76.5, 76.99, 76.9, 77.29, 77.86, 78.42, 78.18, 78.76, 79.57, 78.56, 78.56, 79.08, 78.92, 79.12, 78.15, 79.13, 77.82, 78.65, 78.87, 78.06, 77.64, 77.07, 76.6, 75.58, 74.42, 72.84, 72.15, 70.49, 69.12, 67.41, 66.87, 64.63, 64.12, 61.99, 61.75, 60.57, 58.62, 57.55, 55.95, 54.91, 53.58, 52.32, 51.36, 49.3, 48.13, 46.43, 45.8, 43.79, 43.66, 41.18, 41.16, 40.0, 38.1, 36.54, 35.51, 34.17, 33.03, 32.12, 29.98, 28.85, 27.82, 26.24], "rpm": [79.7, 81.7, 83.5, 86.5, 88.2, 90.5, 91.8, 93.4, 95.5, 99.6, 97.0, 100.2, 101.6, 105.8, 109.6, 111.3, 110.6, 113.5, 113.8, 119.0, 119.7, 123.7, 122.4, 124.2, 121.4, 126.9, 127.0, 119.8, 127.2, 127.3, 129.6, 130.0, 127.5, 132.6, 124.6, 130.4, 130.1, 125.9, 124.4, 126.0, 123.2, 129.1, 126.8, 125.0, 119.7, 128.6, 121.7, 121.9, 122.6, 121.6, 119.9, 120.7, 121.7, 121.4, 123.2, 116.3, 116.9, 109.5, 112.2, 110.5, 108.6, 110.5, 110.7, 110.0, 118.8, 111.1, 112.0, 113.2, 112.6, 106.4, 118.3, 123.0, 112.4, 118.5, 114.0, 110.1, 123.1, 113.8, 119.8, 115.7, 121.3, 118.6, 117.5, 111.9, 112.0, 110.0, 111.1, 103.5, 99.3, 99.6, 96.0, 95.9, 94.6, 90.5, 87.3, 86.7, 84.7, 80.7, 77.0, 80.9, 73.6, 73.4, 74.5, 69.4, 66.9, 61.4, 65.3, 60.8, 57.5, 56.0, 51.0, 53.0, 51.6, 46.2, 43.7, 42.8, 37.4, 37.7, 34.3, 33.9], "visc": [849.1, 829.0, 830.3, 832.3, 808.1, 815.5, 800.3, 790.9, 781.0, 760.1, 739.0, 758.0, 748.8, 730.6, 729.1, 718.8, 702.2, 715.7, 694.1, 685.7, 652.9, 651.2, 663.2, 693.4, 657.3, 655.7, 652.3, 646.5, 672.3, 658.5, 658.3, 658.1, 675.4, 651.9, 647.2, 655.8, 652.7, 644.5, 637.9, 637.1, 642.6, 638.5, 653.4, 639.4, 645.9, 641.0, 616.0, 653.7, 609.2, 636.4, 611.6, 629.4, 623.1, 627.8, 621.9, 635.3, 630.3, 618.1, 623.5, 617.7, 615.4, 614.8, 611.8, 610.1, 581.7, 601.3, 627.9, 593.6, 594.6, 620.5, 582.9, 583.1, 597.7, 587.4, 603.9, 587.1, 592.7, 574.4, 590.0, 572.2, 566.1, 590.6, 580.6, 593.7, 606.0, 589.3, 598.0, 593.1, 578.5, 592.9, 587.7, 598.7, 596.9, 595.5, 588.0, 600.3, 614.3, 602.0, 606.2, 614.2, 614.0, 614.0, 616.4, 612.1, 618.3, 622.1, 629.8, 609.0, 615.2, 612.2, 625.7, 618.0, 623.0, 625.4, 625.3, 631.5, 641.4, 634.4, 641.6, 642.5]};
+
+const t = data.times;
+
+// Phase background shapes
+const phases = [
+  { x0: 0, x1: 10,  color: 'rgba(227,168,74,0.06)',  label: 'Aufheizphase' },
+  { x0: 10, x1: 40, color: 'rgba(125,196,78,0.05)',  label: 'Mischphase' },
+  { x0: 40, x1: 60, color: 'rgba(123,158,200,0.06)', label: 'Abkühlphase' }
+];
+
+const shapes = phases.map(p => ({
+  type: 'rect', xref: 'x', yref: 'paper',
+  x0: p.x0, x1: p.x1, y0: 0, y1: 1,
+  fillcolor: p.color, line: { width: 0 }
+}));
+
+// Phase dividers
+[10, 40].forEach(x => shapes.push({
+  type: 'line', xref: 'x', yref: 'paper',
+  x0: x, x1: x, y0: 0, y1: 1,
+  line: { color: 'rgba(240,237,230,0.12)', width: 1, dash: 'dot' }
+}));
+
+const commonHover = { hovertemplate: '%{x} min<br><b>%{y}</b><extra></extra>' };
+
+const traces = [
+  {
+    x: t, y: data.temp, name: 'Temperatur (°C)',
+    yaxis: 'y', type: 'scatter', mode: 'lines',
+    line: { color: '#E3A84A', width: 2.5, shape: 'spline', smoothing: 0.5 },
+    ...commonHover, hovertemplate: '%{x} min<br><b>%{y} °C</b><extra></extra>'
+  },
+  {
+    x: t, y: data.rpm, name: 'Drehzahl (rpm)',
+    yaxis: 'y2', type: 'scatter', mode: 'lines',
+    line: { color: '#7DC44E', width: 2, shape: 'spline', smoothing: 0.5 },
+    ...commonHover, hovertemplate: '%{x} min<br><b>%{y} rpm</b><extra></extra>'
+  },
+  {
+    x: t, y: data.visc, name: 'Viskosität (mPa·s)',
+    yaxis: 'y3', type: 'scatter', mode: 'lines',
+    line: { color: '#7B9EC8', width: 2, shape: 'spline', smoothing: 0.5 },
+    ...commonHover, hovertemplate: '%{x} min<br><b>%{y} mPa·s</b><extra></extra>'
+  }
+];
+
+const layout = {
+  paper_bgcolor: 'transparent',
+  plot_bgcolor: 'transparent',
+  margin: { t: 16, r: 80, b: 48, l: 56 },
+  font: { family: "'DM Sans', system-ui, sans-serif", color: '#A09D96', size: 12 },
+  shapes: shapes,
+  xaxis: {
+    title: { text: 'Zeit (min)', standoff: 12 },
+    gridcolor: 'rgba(240,237,230,0.06)',
+    tickcolor: 'rgba(240,237,230,0.15)',
+    linecolor: 'rgba(240,237,230,0.12)',
+    range: [0, 60], tickvals: [0,10,20,30,40,50,60],
+    zeroline: false
+  },
+  yaxis: {
+    title: { text: '°C', standoff: 8 },
+    gridcolor: 'rgba(240,237,230,0.06)',
+    tickcolor: 'rgba(240,237,230,0.15)',
+    linecolor: 'rgba(240,237,230,0.12)',
+    zeroline: false, range: [15, 95],
+    tickfont: { color: '#E3A84A' }, title: { text: '°C', font: { color: '#E3A84A' } }
+  },
+  yaxis2: {
+    title: { text: 'rpm', font: { color: '#7DC44E' } },
+    overlaying: 'y', side: 'right', showgrid: false, zeroline: false,
+    range: [20, 160],
+    tickfont: { color: '#7DC44E' }, tickcolor: 'rgba(240,237,230,0.15)',
+    linecolor: 'rgba(240,237,230,0.12)'
+  },
+  yaxis3: {
+    title: { text: 'mPa·s', font: { color: '#7B9EC8' } },
+    overlaying: 'y', side: 'right', showgrid: false, zeroline: false,
+    position: 0.97, anchor: 'free', range: [480, 920],
+    tickfont: { color: '#7B9EC8' }, tickcolor: 'rgba(240,237,230,0.15)',
+    linecolor: 'rgba(240,237,230,0.12)'
+  },
+  legend: {
+    bgcolor: 'rgba(30,30,28,0.7)', bordercolor: 'rgba(240,237,230,0.1)', borderwidth: 1,
+    x: 0.01, y: 0.99, xanchor: 'left', yanchor: 'top',
+    font: { size: 12, color: '#A09D96' }
+  },
+  hovermode: 'x unified',
+  hoverlabel: { bgcolor: '#1E1E1C', bordercolor: '#C8922A', font: { color: '#F0EDE6', size: 13 } }
+};
+
+Plotly.newPlot('mixerChart', traces, layout, {
+  responsive: true, displayModeBar: true,
+  modeBarButtonsToRemove: ['select2d','lasso2d','autoScale2d','toggleSpikelines'],
+  displaylogo: false,
+  toImageButtonOptions: { format: 'png', filename: 'mischprozess_sensordaten' }
+});
+</script>
 </body>
 </html>
